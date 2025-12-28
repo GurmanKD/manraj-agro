@@ -1,74 +1,46 @@
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
 
 export function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-white">
-      <Container className="py-10">
-        <div className="grid gap-10 md:grid-cols-3">
+      <Container>
+        <div className="grid gap-8 py-10 md:grid-cols-3 text-sm">
+          {/* Brand */}
           <div>
-            <div className="text-lg font-extrabold tracking-tight text-slate-900">
+            <div className="text-base font-extrabold tracking-tight">
               Manraj Agro Industries
             </div>
-            <p className="mt-2 text-sm text-slate-600">
-              Dealership & supplier of agricultural machinery — tractors,
-              harvesters, seed drills and implements with strong after-sales
-              support.
+            <p className="mt-2 text-slate-600">
+              Dealership & supplier of agricultural machinery including tractors,
+              harvesters and farm implements.
             </p>
-            <div className="mt-4 text-sm text-slate-700">
-              <div>GST: 05DIBPS9043F1Z7</div>
-              <div className="mt-1">Established: ~2017</div>
-            </div>
+            <p className="mt-3 text-slate-600">
+              GST: <span className="font-medium">05DIBPS9043F1Z7</span>
+            </p>
           </div>
 
+          {/* Locations */}
           <div>
-            <div className="text-sm font-semibold text-slate-900">
-              Quick Links
-            </div>
-            <ul className="mt-3 space-y-2 text-sm">
-              <li>
-                <Link className="text-slate-600 hover:underline" href="/products">
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link className="text-slate-600 hover:underline" href="/about">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link className="text-slate-600 hover:underline" href="/contact">
-                  Contact
-                </Link>
-              </li>
-            </ul>
+            <div className="font-semibold">Locations</div>
+            <p className="mt-2 text-slate-600 leading-relaxed">
+              Gadarpur, Udham Singh Nagar<br />
+              Uttarakhand<br /><br />
+              Rampur, Uttar Pradesh
+            </p>
           </div>
 
+          {/* Contact */}
           <div>
-            <div className="text-sm font-semibold text-slate-900">Contact</div>
-            <div className="mt-3 space-y-2 text-sm text-slate-600">
-              <div>Gadarpur, Udham Singh Nagar, Uttarakhand</div>
-              <div>Rampur, Uttar Pradesh</div>
-              <a className="block hover:underline" href="tel:+91XXXXXXXXXX">
-                +91 XXXXXXXXXX
-              </a>
-              <a className="block hover:underline" href="mailto:info@manrajagro.com">
-                info@manrajagro.com
-              </a>
-            </div>
+            <div className="font-semibold">Contact</div>
+            <p className="mt-2 text-slate-600">
+              Phone: +91 XXXXXXXXXX<br />
+              Email: info@manrajagro.com
+            </p>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-slate-200 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <div>© {new Date().getFullYear()} Manraj Agro Industries.</div>
-          <div className="flex gap-4">
-            <Link className="hover:underline" href="/privacy">
-              Privacy
-            </Link>
-            <Link className="hover:underline" href="/terms">
-              Terms
-            </Link>
-          </div>
+        <div className="border-t border-slate-200 py-4 text-xs text-slate-500">
+          © {new Date().getFullYear()} Manraj Agro Industries. All rights reserved.
         </div>
       </Container>
     </footer>
