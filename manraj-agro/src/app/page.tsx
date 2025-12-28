@@ -1,65 +1,81 @@
-import Image from "next/image";
+import { Container } from "@/components/ui/container";
+import { ButtonLink } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="bg-surface">
+      <section className="py-14 sm:py-20">
+        <Container>
+          <div className="grid gap-10 md:grid-cols-2 md:items-center">
+            <div>
+              <p className="text-sm font-semibold text-brand">
+                Gadarpur • Rampur
+              </p>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+                Tractors, harvesters & farm implements — with service you can
+                trust.
+              </h1>
+              <p className="mt-4 max-w-xl text-base text-slate-600">
+                Manraj Agro Industries supplies John Deere tractors, combine
+                harvesters, seed drills, rotavators, threshers and more — along
+                with consultation and after-sales support.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <ButtonLink href="/products">Browse Products</ButtonLink>
+                <ButtonLink href="/contact" variant="secondary">
+                  Get a Quote
+                </ButtonLink>
+              </div>
+
+              <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-md">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div className="text-2xl font-extrabold text-slate-900">
+                    10+
+                  </div>
+                  <div className="text-sm text-slate-600">Years in business</div>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div className="text-2xl font-extrabold text-slate-900">
+                    Fast
+                  </div>
+                  <div className="text-sm text-slate-600">
+                    Quote & support turnaround
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="text-sm font-semibold text-slate-900">
+                Featured Categories
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {[
+                  "John Deere Tractors",
+                  "Combine Harvesters",
+                  "Seed Drills",
+                  "Rotavators",
+                  "Straw Reapers",
+                  "Laser Land Levelers",
+                ].map((x) => (
+                  <div
+                    key={x}
+                    className="rounded-2xl border border-slate-200 bg-surface p-4 text-sm font-medium text-slate-800"
+                  >
+                    {x}
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 rounded-2xl bg-brand/10 p-4 text-sm text-slate-700">
+                Tip: We’ll connect this to a CMS soon so your team can update
+                products, prices (optional), and testimonials without coding.
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
     </div>
   );
 }
