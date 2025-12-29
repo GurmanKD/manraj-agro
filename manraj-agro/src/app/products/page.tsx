@@ -2,6 +2,7 @@ import Link from "next/link";
 import { sanityClient } from "@/lib/sanity/client";
 import { qAllCategories } from "@/lib/sanity/queries";
 
+
 export const revalidate = 3600;
 
 export default async function ProductsPage() {
