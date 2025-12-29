@@ -1,13 +1,9 @@
+"use client";
+
 import { Container } from "@/components/ui/container";
 import { QuoteForm } from "@/components/site/quote-form";
 import { siteConfig } from "@/lib/site";
 import { makeWhatsAppLink } from "@/lib/whatsapp";
-
-export const metadata = {
-  title: "Contact | Manraj Agro Industries",
-  description:
-    "Contact Manraj Agro Industries for tractors, harvesters and farm implements. Get a fast quote on WhatsApp.",
-};
 
 export default function ContactPage() {
   const waLink = makeWhatsAppLink(

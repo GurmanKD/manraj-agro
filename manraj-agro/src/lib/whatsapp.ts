@@ -1,4 +1,5 @@
-export function makeWhatsAppLink(phoneE164NoPlus: string, message: string) {
+export function makeWhatsAppLink(number: string, message: string) {
   const text = encodeURIComponent(message);
-  return `https://wa.me/${phoneE164NoPlus}?text=${text}`;
+  const phone = number.replace(/\D/g, "");
+  return `https://wa.me/${phone}?text=${text}`;
 }
