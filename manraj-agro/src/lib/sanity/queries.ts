@@ -37,3 +37,10 @@ export const qLocations = groq`
   _id, name, address, phone, whatsapp, mapLink, businessHours
 }
 `;
+
+export const qTestimonials = groq`
+*[_type=="testimonial"] | order(_createdAt desc)[0..20]{
+  _id, name, place, quote, rating,
+  "product": product->{"title": title, "slug": slug.current}
+}
+`;

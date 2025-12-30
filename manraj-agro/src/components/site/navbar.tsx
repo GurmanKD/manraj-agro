@@ -11,6 +11,8 @@ import { Menu, X, Tractor } from "lucide-react";
 const nav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
+  { href: "/locations", label: "Locations" },
+  { href: "/testimonials", label: "Testimonials" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -83,6 +85,7 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={() => setOpen(false)} // ✅ close menu after navigation
                     className={cn(
                       "rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50",
                       active && "bg-brand/10 text-brand"
