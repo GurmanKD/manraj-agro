@@ -5,7 +5,7 @@ import { qAllCategories } from "@/lib/sanity/queries";
 export const revalidate = 3600;
 
 export default async function ProductsIndexPage() {
-  const categories = await sanityClient.fetch(qAllCategories);
+  const categories: any[] = await sanityClient.fetch(qAllCategories);
 
   return (
     <div className="container-shell py-10">
@@ -17,7 +17,7 @@ export default async function ProductsIndexPage() {
       </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((c: any) => (
+        {categories.map((c) => (
           <Link
             key={c._id}
             href={`/products/${c.slug}`}

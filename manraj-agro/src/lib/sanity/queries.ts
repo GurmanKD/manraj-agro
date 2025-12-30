@@ -19,7 +19,7 @@ export const qProductsByCategorySlug = groq`
 | order(featured desc, title asc){
   _id, title, "slug": slug.current, brand, priceType, price,
   "category": category->{"title": title, "slug": slug.current},
-  images[0], highlights
+  "image": images[0], highlights
 }
 `;
 

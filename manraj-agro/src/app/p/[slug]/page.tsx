@@ -12,7 +12,7 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const p = await sanityClient.fetch(qProductBySlug, { slug: params.slug });
+  const p: any = await sanityClient.fetch(qProductBySlug, { slug: params.slug });
 
   if (!p) {
     return (
@@ -80,14 +80,12 @@ export default async function ProductPage({
           <div className="mt-5 rounded-3xl border border-zinc-200 p-5">
             <div className="text-sm font-semibold">
               {p.priceType === "fixed" && p.price
-                ? `₹ ${p.price.toLocaleString("en-IN")}`
+                ? `₹ ${Number(p.price).toLocaleString("en-IN")}`
                 : "Get latest price"}
             </div>
-
             <p className="mt-1 text-sm text-zinc-600">
               Request callback for availability, offers, and delivery details.
             </p>
-
             <div className="mt-4">
               <QuoteCTA productTitle={p.title} />
             </div>
@@ -110,7 +108,6 @@ export default async function ProductPage({
           {p.specs?.length ? (
             <div className="mt-8">
               <h2 className="text-sm font-semibold">Specifications</h2>
-
               <div className="mt-3 overflow-hidden rounded-3xl border border-zinc-200">
                 <table className="w-full text-left text-sm">
                   <tbody>
