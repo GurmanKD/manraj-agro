@@ -4,7 +4,7 @@ export const qFeaturedProducts = groq`
 *[_type=="product" && featured==true] | order(_createdAt desc)[0..7]{
   _id, title, "slug": slug.current, brand, priceType, price,
   "category": category->{"title": title, "slug": slug.current},
-  images[0]
+  "image": images[0]
 }
 `;
 
