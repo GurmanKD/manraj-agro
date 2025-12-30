@@ -1,96 +1,137 @@
-import { Container } from "@/components/ui/container";
+import Image from "next/image";
 import Link from "next/link";
-import { categories, products } from "@/lib/catalog";
-import { notFound } from "next/navigation";
+import { sanityClient } from "@/lib/sanity/client";
+import { qProductBySlug } from "@/lib/sanity/queries";
+import { urlFor } from "@/lib/sanity/image";
+import { QuoteCTA } from "@/components/quote/QuoteCTA";
+
+export const revalidate = 3600;
 
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const p = await sanityClient.fetch(qProductBySlug, { slug: params.slug });
 
-  const product = products.find((p) => p.slug === slug);
-  if (!product) return notFound();
-
-  const cat = categories.find((c) => c.slug === product.category);
+  if (!p) {
+    return (
+      <div className="container-shell py-16">
+        <h1 className="text-xl font-bold">Product not found</h1>
+        <Link href="/products" className="mt-4 inline-block text-sm underline">
+          Go to products
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="py-12">
-      <Container>
-        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
-          <Link href="/products" className="hover:underline">
-            Products
-          </Link>
-          <span>/</span>
-          <Link href={`/products/${product.category}`} className="hover:underline">
-            {cat?.title ?? "Category"}
-          </Link>
-          <span>/</span>
-          <span className="text-slate-900 font-medium">{product.title}</span>
+    <div className="container-shell py-10">
+      <div className="grid gap-8 lg:grid-cols-2">
+        {/* Gallery */}
+        <div className="space-y-4">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-100">
+            {p.images?.[0] ? (
+              <Image
+                src={urlFor(p.images[0]).width(1200).height(900).format("webp").url()}
+                alt={p.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+            ) : null}
+          </div>
+
+          {p.images?.length > 1 ? (
+            <div className="grid grid-cols-3 gap-3">
+              {p.images.slice(1, 4).map((img: any, i: number) => (
+                <div
+                  key={i}
+                  className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100"
+                >
+                  <Image
+                    src={urlFor(img).width(600).height(450).format("webp").url()}
+                    alt={`${p.title} photo ${i + 2}`}
+                    fill
+                    className="object-cover"
+                    sizes="33vw"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
 
-        <div className="mt-6 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6">
-            <div className="text-sm font-semibold text-green-700">
-              {product.brand ?? "Manraj Agro"}
-            </div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">
-              {product.title}
-            </h1>
+        {/* Details */}
+        <div>
+          <p className="text-xs font-semibold text-zinc-600">
+            {p.category?.title ?? "Product"}
+          </p>
 
-            <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
-              Photos will be added here (CMS). For now:{" "}
-              <span className="font-medium">{cat?.imageHint}</span>
+          <h1 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
+            {p.title}
+          </h1>
+
+          <p className="mt-2 text-sm text-zinc-600">
+            {p.brand ? `Brand: ${p.brand}` : "Agricultural machinery"}
+          </p>
+
+          <div className="mt-5 rounded-3xl border border-zinc-200 p-5">
+            <div className="text-sm font-semibold">
+              {p.priceType === "fixed" && p.price
+                ? `₹ ${p.price.toLocaleString("en-IN")}`
+                : "Get latest price"}
             </div>
 
+            <p className="mt-1 text-sm text-zinc-600">
+              Request callback for availability, offers, and delivery details.
+            </p>
+
+            <div className="mt-4">
+              <QuoteCTA productTitle={p.title} />
+            </div>
+          </div>
+
+          {p.highlights?.length ? (
             <div className="mt-6">
-              <div className="text-sm font-semibold text-slate-900">Highlights</div>
-              <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                {product.highlights.map((h) => (
-                  <li key={h}>• {h}</li>
+              <h2 className="text-sm font-semibold">Highlights</h2>
+              <ul className="mt-3 space-y-2 text-sm text-zinc-700">
+                {p.highlights.map((h: string, idx: number) => (
+                  <li key={idx} className="flex gap-2">
+                    <span className="mt-1 inline-block h-2 w-2 rounded-full bg-zinc-900" />
+                    <span>{h}</span>
+                  </li>
                 ))}
               </ul>
             </div>
-          </div>
+          ) : null}
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6">
-            <div className="text-lg font-bold">Request a Quote</div>
-            <p className="mt-2 text-sm text-slate-600">
-              Tell us your location and requirement. We’ll share availability,
-              pricing and delivery timeline.
-            </p>
+          {p.specs?.length ? (
+            <div className="mt-8">
+              <h2 className="text-sm font-semibold">Specifications</h2>
 
-            <div className="mt-6 grid gap-3">
-              <Link
-                href="/contact"
-                className="rounded-xl bg-green-700 px-5 py-3 text-center text-sm font-semibold text-white hover:opacity-95"
-              >
-                Contact Manraj Agro
-              </Link>
-
-              <a
-                className="rounded-xl border border-slate-200 px-5 py-3 text-center text-sm font-semibold hover:bg-slate-50"
-                href="tel:+91XXXXXXXXXX"
-              >
-                Call: +91 XXXXXXXXXX
-              </a>
-
-              <a
-                className="rounded-xl border border-slate-200 px-5 py-3 text-center text-sm font-semibold hover:bg-slate-50"
-                href="mailto:info@manrajagro.com"
-              >
-                Email: info@manrajagro.com
-              </a>
+              <div className="mt-3 overflow-hidden rounded-3xl border border-zinc-200">
+                <table className="w-full text-left text-sm">
+                  <tbody>
+                    {p.specs.map((s: any, idx: number) => (
+                      <tr
+                        key={idx}
+                        className={idx % 2 === 0 ? "bg-white" : "bg-zinc-50"}
+                      >
+                        <td className="w-1/2 px-4 py-3 font-medium text-zinc-800">
+                          {s.k}
+                        </td>
+                        <td className="px-4 py-3 text-zinc-700">{s.v}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-
-            <div className="mt-6 rounded-2xl bg-green-700/10 p-4 text-sm text-slate-700">
-              <span className="font-semibold">Note:</span> Prices vary by model,
-              subsidy/finance, and delivery location.
-            </div>
-          </div>
+          ) : null}
         </div>
-      </Container>
+      </div>
     </div>
   );
 }
