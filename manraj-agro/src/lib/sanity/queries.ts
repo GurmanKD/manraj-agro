@@ -39,13 +39,6 @@ export const qLocations = groq`
 `;
 
 export const qTestimonials = groq`
-*[_type=="testimonial"] | order(_createdAt desc)[0..20]{
-  _id, name, place, quote, rating,
-  "product": product->{"title": title, "slug": slug.current}
-}
-`;
-
-export const qTestimonials = groq`
 *[_type=="testimonial"] | order(_createdAt desc)[0..11]{
   _id,
   name,
