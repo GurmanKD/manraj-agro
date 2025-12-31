@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { sanityClient } from "@/lib/sanity/client";
-import { qFeaturedProducts } from "@/lib/sanity/queries";
+import { qFeaturedProducts, qTestimonials } from "@/lib/sanity/queries";
 import { ProductCard } from "@/components/products/ProductCard";
+import { TestimonialsCarousel } from "@/components/site/testimonials-carousel";
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const featured: any[] = await sanityClient.fetch(qFeaturedProducts);
+  const [featured, testimonials] = await Promise.all([
+  sanityClient.fetch(qFeaturedProducts),
+  sanityClient.fetch(qTestimonials),
+]);
 
   return (
     <div>
@@ -64,6 +68,7 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+      <TestimonialsCarousel items={testimonials} />
     </div>
   );
 }
